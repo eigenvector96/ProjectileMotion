@@ -41,10 +41,10 @@ Vmag = V.subs([(v,20),(theta,np.radians(25))])
 print(f"The magnitude of the velocity when the projectile hits the ground is {Vmag} meters.")
 
 #Graphs
-t = np.linspace(0,5,1000)
-y = 20*np.sin(np.radians(25))*t -4.9*t**2
+t_num = np.linspace(0,5,1000)
+y = 20*np.sin(np.radians(25))*t_num -4.9*t_num**2
 plt.figure(figsize=(10,3))
-plt.plot(t,y, label = 'Height')
+plt.plot(t_num,y, label = 'Height')
 plt.axhline(y = -50.71419141, color = 'red', label = 'Ground')
 plt.title("Height as a function of time", fontsize=20)
 plt.ylabel("Height [m]")
@@ -53,8 +53,8 @@ plt.xlabel("Time [s]")
 plt.legend()
 
 plt.figure(figsize=(10,3))
-x = 20*np.cos(np.radians(20))*t
-plt.plot(t,x, label = 'Distance')
+x = 20*np.cos(np.radians(20))*t_num
+plt.plot(t_num,x, label = 'Distance')
 plt.title("Distance as a function of time", fontsize=20)
 plt.xlabel("Time [s]")
 plt.ylabel("Distance [m]")
