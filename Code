@@ -1,0 +1,64 @@
+#Useful packages
+import numpy as np
+import sympy as smp
+import matplotlib.pyplot as plt
+import scienceplots
+plt.style.reload_library()
+plt.style.use('science')
+plt.style.use(['science','notebook','grid'])
+
+#Constants
+x,y,theta,t,g,v,V,vy = smp.symbols('x y theta t g v V v_y', real=True)
+theta
+
+#Find the max height
+y = 1/2*g*t**2 + v*smp.sin(theta)*t
+dydt = smp.diff(y,t)
+dydt
+ymax = dydt.subs([(g,-9.81),(v,20), (theta,np.radians(25))])
+ymax_time = smp.solve(ymax,t)
+t_max = ymax_time[0]
+
+sol = y.subs([(g,-9.81),(v,20), (theta,np.radians(25)), (t,t_max)])
+print(f"The max height the projectile reaches is {sol} meter")
+
+#How far does it travel?
+time = smp.solve(y,t)
+time = time[1]
+time
+sol_t = time.subs([(g,-9.81),(v,20), (theta,np.radians(25))])
+sol_t
+
+print(f"The time the projectile is in the air is {sol_t} second")
+
+x = v*smp.cos(theta)*t
+x = x.subs([(v,20),(theta,np.radians(25)),(t,sol_t)])
+print(f"The horizontal distance covered is {x} meters")
+
+#Mag of velocity
+V = smp.sqrt((v*smp.cos(theta))**2 + (v*smp.sin(theta))**2)
+Vmag = V.subs([(v,20),(theta,np.radians(25))])
+print(f"The magnitude of the velocity when the projectile hits the ground is {Vmag} meters.")
+
+#Graphs
+t = np.linspace(0,5,1000)
+y = 20*np.sin(np.radians(25))*t -4.9*t**2
+plt.figure(figsize=(10,3))
+plt.plot(t,y, label = 'Height')
+plt.axhline(y = -50.71419141, color = 'red', label = 'Ground')
+plt.title("Height as a function of time", fontsize=20)
+plt.ylabel("Height [m]")
+plt.ylim(-60,5)
+plt.xlabel("Time [s]")
+plt.legend()
+
+plt.figure(figsize=(10,3))
+x = 20*np.cos(np.radians(20))*t
+plt.plot(t,x, label = 'Distance')
+plt.title("Distance as a function of time", fontsize=20)
+plt.xlabel("Time [s]")
+plt.ylabel("Distance [m]")
+plt.ylim(0,35)
+plt.xlim(0,2)
+plt.axhline(y=31.235247, color='purple', label = 'Hits ground')
+plt.legend()
